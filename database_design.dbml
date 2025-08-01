@@ -1,0 +1,271 @@
+// Apprendre.ai Database Design
+// French Learning App with Flashcards, Spaced Repetition, and Pronunciation
+// Updated: Separated Words (vocabulary) from Questions (learning activities)
+// MVP Version: Simplified without job tracking
+
+Project ApprenndrAI {
+  database_type: 'PostgreSQL'
+  Note: 'Database design for French learning app with AI-assisted vocabulary and generated questions'
+}
+
+// =======================
+// USER MANAGEMENT
+// =======================
+
+Table users {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  email varchar(255) [unique, not null]
+  password_hash varchar(255) [not null]
+  username varchar(50) [unique]
+  first_name varchar(100)
+  last_name varchar(100)
+  current_level varchar(10) [note: 'A1, A2, B1, B2, C1, C2']
+  target_level varchar(10)
+  daily_goal integer [default: 20, note: 'Questions to review per day']
+  timezone varchar(50) [default: 'UTC']
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  last_active_at timestamp
+  is_active boolean [default: true]
+  
+  Note: 'Core user accounts and preferences'
+}
+
+// =======================
+// DECK & WORD MANAGEMENT
+// =======================
+
+Table decks {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  user_id uuid [ref: > users.id, not null]
+  name varchar(255) [not null]
+  description text
+  category varchar(100) [note: 'e.g., Travel, Business, Exam Prep']
+  target_level varchar(10) [note: 'A1, A2, B1, B2, C1, C2']
+  is_active boolean [default: true]
+  word_count integer [default: 0]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  Note: 'User-created vocabulary collections'
+}
+
+Table words {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  deck_id uuid [ref: > decks.id, not null]
+  
+  // Core vocabulary data (user input + AI generated)
+  french_word varchar(255) [not null, note: 'User provided']
+  english_translation text [note: 'AI generated']
+  part_of_speech varchar(50) [note: 'AI generated: noun, verb, adjective, etc.']
+  gender varchar(10) [note: 'AI generated: masculine, feminine, neutral']
+  french_example text [note: 'AI generated example sentence']
+  english_example_translation text [note: 'AI generated translation of example']
+  
+  // Pronunciation data (API sourced)
+  phonetic_transcription varchar(255) [note: 'IPA notation from trusted API']
+  pronunciation_audio_url varchar(500) [note: 'URL to pronunciation audio file']
+  
+  // Word metadata
+  difficulty_level varchar(10) [note: 'A1, A2, B1, B2, C1, C2']
+  tags text[] [note: 'Array of user tags for filtering']
+  usage_context text [note: 'When/how to use this word']
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  Note: 'Vocabulary words with AI-enriched content and pronunciation data'
+}
+
+// =======================
+// QUESTION GENERATION & MANAGEMENT
+// =======================
+
+Table questions {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  word_id uuid [ref: > words.id, not null]
+  
+  // Question type and content
+  question_type varchar(50) [not null, note: 'english_to_french, french_to_english, pronunciation']
+  question_text text [not null, note: 'The question displayed to user']
+  correct_answer text [not null, note: 'Expected correct answer']
+  
+  // Question metadata
+  difficulty_level varchar(10) [note: 'Inherited from word or adjusted']
+  generated_at timestamp [default: `now()`]
+  is_active boolean [default: true]
+  
+  // Additional question-specific data
+  options jsonb [note: 'Multiple choice options if applicable']
+  hints text [note: 'Helpful hints for the question']
+  
+  Note: 'Auto-generated questions for each vocabulary word (3 per word)'
+}
+
+// =======================
+// SPACED REPETITION (SM-2) - PER QUESTION
+// =======================
+
+Table question_reviews {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  user_id uuid [ref: > users.id, not null]
+  question_id uuid [ref: > questions.id, not null]
+  
+  // SM-2 Algorithm fields
+  ease_factor float [default: 2.5, note: 'SM-2 ease factor (1.3 minimum)']
+  interval_days integer [default: 1, note: 'Days until next review']
+  repetition_count integer [default: 0, note: 'Number of successful reviews']
+  
+  // Review scheduling
+  next_review_date timestamp [not null]
+  last_reviewed_at timestamp
+  is_due boolean [default: true]
+  
+  // Performance tracking
+  total_attempts integer [default: 0]
+  correct_attempts integer [default: 0]
+  accuracy_rate float [default: 0.0, note: 'correct_attempts / total_attempts']
+  
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  Note: 'Spaced repetition state for each user-question combination'
+}
+
+Table question_attempts {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  user_id uuid [ref: > users.id, not null]
+  question_id uuid [ref: > questions.id, not null]
+  question_review_id uuid [ref: > question_reviews.id, not null]
+  
+  // User response
+  user_answer text
+  
+  // AI grading (for semantic similarity)
+  ai_grade varchar(20) [note: 'correct, close, incorrect']
+  ai_feedback text [note: 'AI-generated feedback']
+  similarity_score float [note: '0.0 to 1.0 for semantic similarity']
+  
+  // SM-2 response quality
+  quality_rating integer [note: '0=Again, 1=Hard, 2=Good, 3=Easy']
+  response_time_ms integer [note: 'Time taken to answer in milliseconds']
+  
+  // Attempt outcome
+  was_correct boolean [not null]
+  needs_repeat boolean [default: false]
+  
+  attempt_date timestamp [default: `now()`]
+  
+  Note: 'Individual question attempts with AI grading and SM-2 ratings'
+}
+
+// =======================
+// PRONUNCIATION SPECIFIC
+// =======================
+
+Table pronunciation_attempts {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  user_id uuid [ref: > users.id, not null]
+  question_id uuid [ref: > questions.id, not null] [note: 'Links to pronunciation question']
+  word_id uuid [ref: > words.id, not null] [note: 'The word being pronounced']
+  
+  // Audio files
+  user_audio_url varchar(500) [not null, note: 'User recording']
+  reference_audio_url varchar(500) [note: 'Reference pronunciation']
+  
+  // Pronunciation analysis
+  similarity_score float [note: '0.0 to 1.0 comparison with reference']
+  pronunciation_feedback text [note: 'AI-generated pronunciation tips']
+  phonetic_accuracy jsonb [note: 'Per-phoneme accuracy scores']
+  
+  // Attempt metadata
+  attempt_date timestamp [default: `now()`]
+  was_successful boolean [note: 'User satisfied with attempt']
+  
+  Note: 'User pronunciation attempts with AI analysis'
+}
+
+// =======================
+// PROGRESS & ANALYTICS
+// =======================
+
+Table user_stats {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  user_id uuid [ref: > users.id, not null]
+  
+  // Daily/Weekly stats
+  stat_date date [not null]
+  questions_answered integer [default: 0]
+  questions_correct integer [default: 0]
+  words_learned integer [default: 0] [note: 'Words with all 3 questions at 80%+ accuracy']
+  total_study_time_minutes integer [default: 0]
+  streak_days integer [default: 0]
+  
+  // Performance by question type
+  english_to_french_accuracy float [default: 0.0]
+  french_to_english_accuracy float [default: 0.0]
+  pronunciation_accuracy float [default: 0.0]
+  
+  // Overall metrics
+  average_response_time_ms integer [default: 0]
+  words_per_minute float [default: 0.0]
+  
+  // Learning insights (generated by LLM)
+  strengths text[] [note: 'AI-identified strengths']
+  weaknesses text[] [note: 'AI-identified areas for improvement']
+  recommendations text [note: 'AI-generated study recommendations']
+  
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  Note: 'Daily learning statistics and AI-generated insights'
+}
+
+Table learning_streaks {
+  id uuid [primary key, default: `gen_random_uuid()`]
+  user_id uuid [ref: > users.id, not null]
+  
+  start_date date [not null]
+  end_date date
+  streak_length integer [not null]
+  is_current boolean [default: false]
+  
+  created_at timestamp [default: `now()`]
+  
+  Note: 'User learning streak tracking'
+}
+
+// =======================
+// INDEXES FOR PERFORMANCE
+// =======================
+
+// Spaced repetition queries (now for questions)
+Indexes {
+  (user_id, next_review_date, is_due) [name: 'idx_due_question_reviews']
+  (user_id, question_id) [name: 'idx_user_question_reviews', unique]
+}
+
+// Learning session queries
+Indexes {
+  (user_id, attempt_date) [name: 'idx_user_attempts']
+  (question_id, attempt_date) [name: 'idx_question_attempts']
+}
+
+// Word and question relationships
+Indexes {
+  (word_id, question_type) [name: 'idx_word_questions']
+  (deck_id, is_active) [name: 'idx_active_words']
+}
+
+// Analytics queries
+Indexes {
+  (user_id, stat_date) [name: 'idx_user_stats', unique]
+  (user_id, is_current) [name: 'idx_current_streaks']
+}
+
+// Search and filtering
+Indexes {
+  (tags) [name: 'idx_word_tags', type: gin]
+  (difficulty_level, part_of_speech) [name: 'idx_word_metadata']
+  (question_type, is_active) [name: 'idx_active_questions']
+} 
