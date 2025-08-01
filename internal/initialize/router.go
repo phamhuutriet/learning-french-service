@@ -1,54 +1,42 @@
 package initialize
 
 import (
-	"fmt"
-	"learning-french-service/internal/controller"
-	"learning-french-service/internal/middlewares"
+	"learning-french-service/global"
+	"learning-french-service/internal/routers"
 
 	"github.com/gin-gonic/gin"
 )
 
-func AA() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		fmt.Println("Before AA")
-		c.Next()
-		fmt.Println("After AA")
-	}
-}
-
-func BB() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		fmt.Println("Before BB")
-		c.Next()
-		fmt.Println("After BB")
-	}
-}
-
-func CC(c *gin.Context) {
-	fmt.Println("Before CC")
-	c.Next()
-	fmt.Println("After CC")
-}
-
 func InitRouter() *gin.Engine {
-	router := gin.Default()
-	router.Use(middlewares.AuthMiddleware(), BB(), CC)
+	var r *gin.Engine
 
-	// Add basic health check endpoint
-	router.GET("/health", heatlhCheck)
+	if global.Config.Server.Mode == "dev" {
+		gin.SetMode(gin.DebugMode)
+		gin.ForceConsoleColor()
+		r = gin.Default()
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		r = gin.New()
+	}
 
-	// API v1 group
-	v1 := router.Group("/api/v1")
+	// middlewares
+	// r.Use()
+	// r.Use()
+	// r.Use()
+	userRouter := routers.RouterGroupApp.User
 
-	v1.GET("/users", controller.NewUserController().GetUsers)
+	MainGroup := r.Group("/api/v1")
+	{
+		MainGroup.GET("/health", func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"message": "ok",
+			})
+		})
+	}
+	{
+		userRouter.InitUserRouter(MainGroup)
+		userRouter.InitProductRouter(MainGroup)
+	}
 
-	return router
-}
-
-func heatlhCheck(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"status":  "okkkk",
-		"message": "Apprendre.ai API is running",
-		"version": "1.0.0",
-	})
+	return r
 }

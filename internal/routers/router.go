@@ -1,38 +1,15 @@
 package routers
 
 import (
-	"fmt"
 	"learning-french-service/internal/controller"
 	"learning-french-service/internal/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
 
-func AA() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		fmt.Println("Before AA")
-		c.Next()
-		fmt.Println("After AA")
-	}
-}
-
-func BB() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		fmt.Println("Before BB")
-		c.Next()
-		fmt.Println("After BB")
-	}
-}
-
-func CC(c *gin.Context) {
-	fmt.Println("Before CC")
-	c.Next()
-	fmt.Println("After CC")
-}
-
 func NewRouter() *gin.Engine {
 	router := gin.Default()
-	router.Use(middlewares.AuthMiddleware(), BB(), CC)
+	router.Use(middlewares.AuthMiddleware())
 
 	// Add basic health check endpoint
 	router.GET("/health", heatlhCheck)
