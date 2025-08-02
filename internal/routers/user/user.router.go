@@ -1,6 +1,8 @@
 package user
 
 import (
+	"learning-french-service/internal/wire"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,10 +11,16 @@ type UserRouter struct {
 }
 
 func (ur *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
+
+	userController, err := wire.InitUserRouterHandler()
+	if err != nil {
+		panic(err)
+	}
+
 	// public router
 	userRouterPublic := Router.Group("user")
 	{
-		userRouterPublic.GET("/register")
+		userRouterPublic.GET("/register", userController.Register)
 		userRouterPublic.POST("/otp")
 	}
 

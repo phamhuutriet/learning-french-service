@@ -1,12 +1,34 @@
 package repo
 
-type UsersRepo struct {
+// type UsersRepo struct {
+// }
+
+// func NewUsersRepo() *UsersRepo {
+// 	return &UsersRepo{}
+// }
+
+// func (ur *UsersRepo) GetUsers() []string {
+// 	return []string{"John", "Jane", "Jim"}
+// }
+
+// INTERFACE VERSION
+
+type IUserRepository interface {
+	GetUserByEmail(email string) bool // true if user exists, false if user does not exist
+	GetUserByID(id int) bool          // true if user exists, false if user does not exist
 }
 
-func NewUsersRepo() *UsersRepo {
-	return &UsersRepo{}
+type userRepository struct {
 }
 
-func (ur *UsersRepo) GetUsers() []string {
-	return []string{"John", "Jane", "Jim"}
+func (ur *userRepository) GetUserByEmail(email string) bool {
+	return true
+}
+
+func (ur *userRepository) GetUserByID(id int) bool {
+	return true
+}
+
+func NewUserRepository() IUserRepository {
+	return &userRepository{}
 }
