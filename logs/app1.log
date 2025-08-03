@@ -71,3 +71,23 @@
 {"level":"INFO","time":"2025-08-01T19:12:35.407-0400","caller":"initialize/mysql.go:28","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
 {"level":"INFO","time":"2025-08-01T19:12:35.431-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
 {"level":"INFO","time":"2025-08-01T19:12:35.431-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T21:12:44.131-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T21:12:44.132-0400","caller":"initialize/ent.go:22","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
+{"level":"INFO","time":"2025-08-02T21:12:44.276-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
+{"level":"INFO","time":"2025-08-02T21:12:44.341-0400","caller":"initialize/ent.go:74","msg":"created default admin user"}
+{"level":"INFO","time":"2025-08-02T21:12:44.346-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T21:12:44.347-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T21:22:09.414-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T21:22:09.415-0400","caller":"initialize/ent.go:8","msg":"Ent initialization placeholder - using GORM for now"}
+{"level":"INFO","time":"2025-08-02T21:22:09.417-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T21:22:09.417-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T21:38:46.387-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T21:38:46.387-0400","caller":"initialize/ent.go:22","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
+{"level":"INFO","time":"2025-08-02T21:38:46.552-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
+{"level":"INFO","time":"2025-08-02T21:38:46.554-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T21:38:46.555-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T21:39:19.694-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T21:39:19.694-0400","caller":"initialize/ent.go:22","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
+{"level":"INFO","time":"2025-08-02T21:39:19.718-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
+{"level":"INFO","time":"2025-08-02T21:39:19.719-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T21:39:19.719-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}

@@ -1,6 +1,7 @@
 package global
 
 import (
+	"learning-french-service/internal/ent"
 	"learning-french-service/pkg/logger"
 	"learning-french-service/settings"
 
@@ -9,8 +10,9 @@ import (
 )
 
 var (
-	Config *settings.Config
-	Logger *logger.LoggerZap
-	MDb    *gorm.DB
-	Rdb    *redis.Client
+	Config    *settings.Config
+	Logger    *logger.LoggerZap
+	MDb       *gorm.DB
+	Rdb       *redis.Client
+	EntClient *ent.Client
 )

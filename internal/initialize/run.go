@@ -16,8 +16,8 @@ func Run() {
 	InitLogger()
 	global.Logger.Info("Logger initialized", zap.String("config", global.Config.MySQL.Host))
 
-	// init mysql
-	InitMysql()
+	// init ent
+	InitEnt()
 
 	// init redis
 	InitRedis()
