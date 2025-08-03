@@ -91,3 +91,28 @@
 {"level":"INFO","time":"2025-08-02T21:39:19.718-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
 {"level":"INFO","time":"2025-08-02T21:39:19.719-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
 {"level":"INFO","time":"2025-08-02T21:39:19.719-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T22:04:26.496-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T22:04:26.497-0400","caller":"initialize/ent.go:22","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
+{"level":"INFO","time":"2025-08-02T22:04:26.537-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
+{"level":"INFO","time":"2025-08-02T22:04:26.538-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T22:04:26.538-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T22:28:04.567-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T22:28:04.568-0400","caller":"initialize/ent.go:22","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
+{"level":"INFO","time":"2025-08-02T22:28:04.600-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
+{"level":"INFO","time":"2025-08-02T22:28:04.601-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T22:28:04.602-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T22:30:52.763-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T22:30:52.764-0400","caller":"initialize/ent.go:22","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
+{"level":"INFO","time":"2025-08-02T22:30:52.800-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
+{"level":"INFO","time":"2025-08-02T22:30:52.804-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T22:30:52.805-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T22:33:42.271-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T22:33:42.272-0400","caller":"initialize/ent.go:22","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
+{"level":"INFO","time":"2025-08-02T22:33:42.292-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
+{"level":"INFO","time":"2025-08-02T22:33:42.293-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T22:33:42.293-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}
+{"level":"INFO","time":"2025-08-02T22:34:14.427-0400","caller":"initialize/run.go:17","msg":"Logger initialized","config":"127.0.0.1"}
+{"level":"INFO","time":"2025-08-02T22:34:14.428-0400","caller":"initialize/ent.go:22","msg":"mysql connected","dsn":"root:123456@tcp(127.0.0.1:3306)/learning_french?charset=utf8mb4&parseTime=True&loc=Local"}
+{"level":"INFO","time":"2025-08-02T22:34:14.454-0400","caller":"initialize/ent.go:32","msg":"database schema created successfully"}
+{"level":"INFO","time":"2025-08-02T22:34:14.455-0400","caller":"initialize/redis.go:29","msg":"redis connected","host":"127.0.0.1:6379"}
+{"level":"INFO","time":"2025-08-02T22:34:14.455-0400","caller":"initialize/redis.go:42","msg":"redis get","score":"100"}

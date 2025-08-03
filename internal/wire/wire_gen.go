@@ -12,6 +12,15 @@ import (
 	"learning-french-service/internal/services"
 )
 
+// Injectors from deck.wire.go:
+
+func InitDeckRouterHandler() (*controller.DeckController, error) {
+	iDeckRepository := repo.NewDeckRepository()
+	iDeckService := services.NewDeckService(iDeckRepository)
+	deckController := controller.NewDeckController(iDeckService)
+	return deckController, nil
+}
+
 // Injectors from user.wire.go:
 
 func InitUserRouterHandler() (*controller.UserController, error) {

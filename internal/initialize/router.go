@@ -24,6 +24,7 @@ func InitRouter() *gin.Engine {
 	// r.Use()
 	// r.Use()
 	userRouter := routers.RouterGroupApp.User
+	deckRouter := routers.RouterGroupApp.Deck
 
 	MainGroup := r.Group("/api/v1")
 	{
@@ -36,6 +37,7 @@ func InitRouter() *gin.Engine {
 	{
 		userRouter.InitUserRouter(MainGroup)
 		userRouter.InitProductRouter(MainGroup)
+		deckRouter.InitDeckRouter(MainGroup)
 	}
 
 	return r
